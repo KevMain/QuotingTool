@@ -1,6 +1,0 @@
-version: 0.1.{build}
-os: Visual Studio 2015
-cmd:
-    dnvm 1.0.0-rc1-update1
-build:
-  verbosity: minimal
