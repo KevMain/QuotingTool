@@ -6,20 +6,23 @@
         .config(AppConfig);
 
     AppConfig.$inject = [
-        '$routeProvider'
+        '$routeProvider',
+        '$locationProvider'
     ];
 
-    function AppConfig($routeProvider) {
+    function AppConfig($routeProvider, $locationProvider) {
 
         $routeProvider
             .when('/login', {
-                templateUrl: 'loginView.htm',
+                templateUrl: 'App/Components/login/loginView.htm',
                 controller: 'loginController',
                 controllerAs: 'vm'
             })
             .otherwise({
                 redirectTo: '/login'
             });
+            
+        $locationProvider.html5Mode(true).hashPrefix('!');
     }
-
+    
 }(angular));
