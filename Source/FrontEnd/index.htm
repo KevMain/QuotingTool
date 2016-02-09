@@ -6,10 +6,16 @@
         <meta name="author" content="Kevin Main">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     </head>
-    <body ng-app>
-        <div>
-            STAGE 1
-        </div>
-        <script src="node_modules/angular/angular.js"></script>
+    <body ng-app="app" >
+        <div>Start Of Page</div>
+        <div ng-view></div>
+        <div>End Of Page</div>
     </body>
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/angular-route/angular-route.js"></script>
+    <script src="app/app.module.js"></script>
+    
+    <script src="app/Components/core/core.module.js"></script>
+    <script src="app/Components/core/core.config.js"></script>
+    <script src="app/Components/login/login.module.js"></script>
 </html>
