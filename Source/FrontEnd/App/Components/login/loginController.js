@@ -7,10 +7,11 @@
         
     LoginController.$inject = [
         '$scope',
-        'authenticationService'
+        '$location',
+        'authenticationService',
     ];
 
-    function LoginController ($scope, authenticationService) {
+    function LoginController ($scope, $location, authenticationService) {
         $scope.credentials = {
             username: '',
             password: ''
@@ -18,7 +19,7 @@
     
         $scope.login = function (credentials) {
             authenticationService.login(credentials).then(function (user) {
-                alert('worked');
+                 $location.path('/dashboard/').replace();
             }, function () {
                 alert('failed');
             });
