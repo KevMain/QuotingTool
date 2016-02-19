@@ -11,6 +11,7 @@ var rename = require("gulp-rename");
 var config = require('./gulp.config')();
 var htmlReplace = require('gulp-html-replace');
 var htmlmin = require('gulp-htmlmin');
+var sync = require('browser-sync').create();
 
 var noCache = Math.ceil(new Date().getTime() / 60000);
 
@@ -18,10 +19,7 @@ if(gutil.env.dev === true) {
     config.debug = true;
 }
 
-gulp.task('default', ['build'], function () {
-    gutil.log('Starting up server');
-    connect.server();
-});
+gulp.task('default', ['build','sync'], watch);
 
 gulp.task('scripts', function() {
     del.sync([config.paths.scripts.pub + '/*']);
@@ -56,6 +54,12 @@ gulp.task('build', ['mark-up'], function () {
     return true;
 });
 
+gulp.task('sync', function () {
+    sync.init({
+        server: ""
+    });
+});
+
 gulp.task('mark-up', ['scripts','styles'], function () {
     gutil.log('Building index.htm');
 
@@ -68,3 +72,13 @@ gulp.task('mark-up', ['scripts','styles'], function () {
         .pipe(config.debug ? gutil.noop() : htmlmin({collapseWhitespace: true}))
         .pipe(gulp.dest('.'));
 });
+
+gulp.task('watch-scripts', ['scripts'], sync.reload);
+
+gulp.task('watch-styles', ['styles'], sync.reload);
+
+function watch() {
+    gulp.watch(config.paths.dev + '/**/**/*.htm', ['watch-scripts']);
+    gulp.watch(config.paths.dev + '/**/**/*.less', ['watch-styles']);
+    gulp.watch(config.paths.dev + '/**/**/*.js', ['watch-scripts']);
+}
