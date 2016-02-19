@@ -14,6 +14,10 @@ var htmlmin = require('gulp-htmlmin');
 
 var noCache = Math.ceil(new Date().getTime() / 60000);
 
+if(gutil.env.dev === true) {
+    config.debug = true;
+}
+
 gulp.task('default', ['build'], function () {
     gutil.log('Starting up server');
     connect.server();
@@ -30,7 +34,7 @@ gulp.task('scripts', function() {
         config.paths.scripts.dev + '/**/**.js'])
     .pipe(jshint())
     .pipe(concat('app.js'))
-    .pipe(uglify())
+    .pipe(config.debug ? gutil.noop() : uglify())
     .pipe(rename({suffix: noCache}))
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(config.paths.scripts.pub));
@@ -42,12 +46,11 @@ gulp.task('styles', function() {
     return gulp
         .src(config.paths.styles.dev + '/*.less')
         .pipe(less())
-        .pipe(shorthand())
+        .pipe(config.debug ? gutil.noop() : shorthand())
         .pipe(rename({suffix: noCache}))
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(config.paths.styles.pub));
 });
-
 
 gulp.task('build', ['mark-up'], function () {
     return true;
@@ -62,6 +65,6 @@ gulp.task('mark-up', ['scripts','styles'], function () {
             'css':'assets/css/main' + noCache + '.min.css',
             'js':'assets/js/app' + noCache + '.min.js'
         }))
-        .pipe(htmlmin({collapseWhitespace: true}))
+        .pipe(config.debug ? gutil.noop() : htmlmin({collapseWhitespace: true}))
         .pipe(gulp.dest('.'));
 });
