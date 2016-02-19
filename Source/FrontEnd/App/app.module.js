@@ -4,7 +4,8 @@
     angular
         .module('app', [
             'app.core',
-            'app.login'
+            'app.login',
+            'app.templates'
         ]);
 
 }(angular));

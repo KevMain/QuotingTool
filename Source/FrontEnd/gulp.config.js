@@ -2,7 +2,8 @@ module.exports = function () {
 
     var paths = {
         dev: './App',
-        build: './Assets'
+        build: './Assets',
+        temp: './temp'
     },
 
     config = {
@@ -11,6 +12,7 @@ module.exports = function () {
         paths: {
             dev: paths.dev,
             build: paths.build,
+            temp: paths.temp,
             scripts: {
                 dev: paths.dev + "/Components",
                 pub: paths.build + "/js"
@@ -19,7 +21,22 @@ module.exports = function () {
                 dev: paths.dev + "/styles",
                 pub: paths.build + "/css"
             }
+        },
+        
+        templateCache: {
+            source: [
+                paths.dev + "/Components/**/*.htm",
+                paths.dev + "/Shared/Views/*.htm"
+            ],
+            compiled: paths.temp,
+            file: 'templates.js',
+            options: {
+                module: 'app.templates',
+                standAlone: false,
+                root: ''
+            }
         }
+        
     };
 
     return config;

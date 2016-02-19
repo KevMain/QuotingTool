@@ -12,16 +12,22 @@
         <!-- endbuild -->
         
     </head>
-    <body ng-app="app" >
-        <div ng-view></div>
+    <body ng-app="app" ng-strict-di>
+
+        <div ng-view>
+            <div class="view-init">
+                Collecting data ...
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+        <script>window.angular || document.write('<script src="/Assets/libs/angular/1.4.0/angular.min.js">\x3C/script>');</script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-route.min.js"></script>
+        <script>(function() { try { window.angular.module('ngRoute'); } catch(e) { return false; } return true; })()||document.write('<script src="/Assets/libs/angular/1.4.0/angular-route.min.js"><\/script>');</script>
+
+        <!-- build:js -->
+        <script src="/Assets/js/app.min.js"></script>
+        <!-- endbuild -->
     </body>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
-    <script>window.angular || document.write('<script src="/Assets/libs/angular/1.4.0/angular.min.js">\x3C/script>');</script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-route.min.js"></script>
-    <script>(function() { try { window.angular.module('ngRoute'); } catch(e) { return false; } return true; })()||document.write('<script src="/Assets/libs/angular/1.4.0/angular-route.min.js"><\/script>');</script>
-
-    <!-- build:js -->
-    <script src="/Assets/js/app.min.js"></script>
-    <!-- endbuild -->
 </html>

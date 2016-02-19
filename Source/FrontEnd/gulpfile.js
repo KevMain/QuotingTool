@@ -12,6 +12,7 @@ var config = require('./gulp.config')();
 var htmlReplace = require('gulp-html-replace');
 var htmlmin = require('gulp-htmlmin');
 var sync = require('browser-sync').create();
+var angularTemplatecache = require('gulp-angular-templatecache');
 
 var noCache = Math.ceil(new Date().getTime() / 60000);
 
@@ -21,7 +22,7 @@ if(gutil.env.dev === true) {
 
 gulp.task('default', ['build','sync'], watch);
 
-gulp.task('scripts', function() {
+gulp.task('scripts', ['templates'], function() {
     del.sync([config.paths.scripts.pub + '/*']);
 
     return gulp.src([
@@ -29,13 +30,15 @@ gulp.task('scripts', function() {
         config.paths.scripts.dev + '/**/**.module.js',
         config.paths.scripts.dev + '/**/**.config.js',
         config.paths.scripts.dev + '/**/**.factory.js',
-        config.paths.scripts.dev + '/**/**.js'])
+        config.paths.scripts.dev + '/**/**.js',
+        config.paths.temp + '/' + config.templateCache.file])
     .pipe(jshint())
     .pipe(concat('app.js'))
     .pipe(config.debug ? gutil.noop() : uglify())
     .pipe(rename({suffix: noCache}))
     .pipe(rename({suffix: '.min'}))
-    .pipe(gulp.dest(config.paths.scripts.pub));
+    .pipe(gulp.dest(config.paths.scripts.pub))
+    .pipe(sync.reload({stream:true}));
 });
 
 gulp.task('styles', function() {
@@ -47,10 +50,28 @@ gulp.task('styles', function() {
         .pipe(config.debug ? gutil.noop() : shorthand())
         .pipe(rename({suffix: noCache}))
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest(config.paths.styles.pub));
+        .pipe(gulp.dest(config.paths.styles.pub))
+        .pipe(sync.reload({stream:true}));
+});
+
+gulp.task('templates', function () {
+    del.sync([config.paths.temp + '/*']);
+
+    return gulp
+        .src(config.templateCache.source)
+        .pipe(config.debug ? gutil.noop() : htmlmin({
+            collapseWhitespace: true,
+            empty: true
+        }))
+        .pipe(angularTemplatecache(
+            config.templateCache.file,
+            config.templateCache.options
+        ))
+        .pipe(gulp.dest(config.templateCache.compiled));
 });
 
 gulp.task('build', ['mark-up'], function () {
+    del([config.paths.temp]);
     return true;
 });
 
@@ -78,7 +99,7 @@ gulp.task('watch-scripts', ['scripts'], sync.reload);
 gulp.task('watch-styles', ['styles'], sync.reload);
 
 function watch() {
-    gulp.watch(config.paths.dev + '/**/**/*.htm', ['watch-scripts']);
+    gulp.watch(config.paths.dev + '/**/**/*.htm', ['templates','watch-scripts']);
     gulp.watch(config.paths.dev + '/**/**/*.less', ['watch-styles']);
     gulp.watch(config.paths.dev + '/**/**/*.js', ['watch-scripts']);
 }
