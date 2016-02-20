@@ -11,9 +11,17 @@ var rename = require("gulp-rename");
 var config = require('./gulp.config')();
 var htmlReplace = require('gulp-html-replace');
 var htmlmin = require('gulp-htmlmin');
-var sync = require('browser-sync').create();
 var angularTemplatecache = require('gulp-angular-templatecache');
+var modRewrite  = require('connect-modrewrite');
 
+var embedlr = require('gulp-embedlr'),
+    refresh = require('gulp-livereload'),
+    lrserver = require('tiny-lr')(),
+    express = require('express'),
+    livereload = require('connect-livereload'),
+    livereloadport = 35729,
+    serverport = 5000;
+    
 var noCache = Math.ceil(new Date().getTime() / 60000);
 
 if(gutil.env.dev === true) {
@@ -38,7 +46,7 @@ gulp.task('scripts', ['templates'], function() {
     .pipe(rename({suffix: noCache}))
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(config.paths.scripts.pub))
-    .pipe(sync.reload({stream:true}));
+    .pipe(refresh(lrserver));
 });
 
 gulp.task('styles', function() {
@@ -51,7 +59,7 @@ gulp.task('styles', function() {
         .pipe(rename({suffix: noCache}))
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(config.paths.styles.pub))
-        .pipe(sync.reload({stream:true}));
+        .pipe(refresh(lrserver));
 });
 
 gulp.task('templates', function () {
@@ -76,9 +84,15 @@ gulp.task('build', ['mark-up'], function () {
 });
 
 gulp.task('sync', function () {
-    sync.init({
-        server: ""
+    var server = express();
+    server.use(livereload({port: livereloadport}));
+    server.use(express.static('.'));
+    server.all('/*', function(req, res) {
+        res.sendfile('index.htm', { root: '' });
     });
+    
+    server.listen(serverport);
+    lrserver.listen(livereloadport);
 });
 
 gulp.task('mark-up', ['scripts','styles'], function () {
@@ -94,9 +108,9 @@ gulp.task('mark-up', ['scripts','styles'], function () {
         .pipe(gulp.dest('.'));
 });
 
-gulp.task('watch-scripts', ['scripts'], sync.reload);
+gulp.task('watch-scripts', ['scripts']);
 
-gulp.task('watch-styles', ['styles'], sync.reload);
+gulp.task('watch-styles', ['styles']);
 
 function watch() {
     gulp.watch(config.paths.dev + '/**/**/*.htm', ['templates','watch-scripts']);
