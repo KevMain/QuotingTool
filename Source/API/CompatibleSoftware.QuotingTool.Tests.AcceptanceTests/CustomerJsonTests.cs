@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 using Newtonsoft.Json;
+using Xunit.Sdk;
 
 namespace CompatibleSoftware.QuotingTool.API.Tests
 {
@@ -54,6 +56,7 @@ namespace CompatibleSoftware.QuotingTool.API.Tests
         }
 
         [Fact]
+        [UseDatabase]
         public void GetAfterPostReturnsResponseWithPostedEntry()
         {
             using (var client = _httpApplication.GetClient())
@@ -72,8 +75,21 @@ namespace CompatibleSoftware.QuotingTool.API.Tests
 
                 var actual = response.Content.ReadAsJsonAsync().Result;
 
-                Assert.Contains(expected, actual.entries);
+                Assert.Contains(expected, actual.Entries);
             }
+        }
+    }
+
+    public class UseDatabaseAttribute : BeforeAfterTestAttribute
+    {
+        public override void Before(MethodInfo methodUnderTest)
+        {
+            base.Before(methodUnderTest);
+        }
+
+        public override void After(MethodInfo methodUnderTest)
+        {
+            base.After(methodUnderTest);
         }
     }
 

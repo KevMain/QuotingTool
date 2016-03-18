@@ -8,18 +8,18 @@ namespace CompatibleSoftware.QuotingTool.API.Controllers
 {
     public class CustomerController : ApiController
     {
-        private readonly static List<CustomerEntryModel> entries = new List<CustomerEntryModel>();
+        private static readonly List<CustomerEntryModel> Entries = new List<CustomerEntryModel>();
         
          
         public HttpResponseMessage Get()
         {
-            entries.Add(new CustomerEntryModel() {CreatedBy = "aa", Name ="dsads", CreatedDate = DateTimeOffset.Now});
-            return Request.CreateResponse(HttpStatusCode.OK, new CustomerModel {Entries = entries.ToArray()});
+            Entries.Add(new CustomerEntryModel() {CreatedBy = "aa", Name ="dsads", CreatedDate = DateTimeOffset.Now});
+            return Request.CreateResponse(HttpStatusCode.OK, new CustomerModel {Entries = Entries.ToArray()});
         }
 
         public HttpResponseMessage Post(CustomerEntryModel customerEntryModel)
         {
-            entries.Add(customerEntryModel);
+            Entries.Add(customerEntryModel);
             return Request.CreateResponse();
         }
     }
