@@ -75,7 +75,7 @@ namespace CompatibleSoftware.QuotingTool.API.Tests
 
                 var actual = response.Content.ReadAsJsonAsync().Result;
 
-                Assert.Contains(expected, actual.Entries);
+                Assert.Contains(expected, actual.entries);
             }
         }
     }
