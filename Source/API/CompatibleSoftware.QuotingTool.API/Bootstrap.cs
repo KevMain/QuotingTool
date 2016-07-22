@@ -4,6 +4,7 @@ using Newtonsoft.Json.Serialization;
 using Owin;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Net.Http.Headers;
 using CompatibleSoftware.QuotingTool.API.Properties;
 
 namespace CompatibleSoftware.QuotingTool.API
@@ -18,11 +19,15 @@ namespace CompatibleSoftware.QuotingTool.API
                 routeTemplate: "{controller}/{id}",
                 defaults: new
                 {
-                    controller = "Customer",
+                    controller = "Home",
                     id = RouteParameter.Optional
                 });
 
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+
+            config.EnableCors();
 
             appBuilder.UseWebApi(config);
         }

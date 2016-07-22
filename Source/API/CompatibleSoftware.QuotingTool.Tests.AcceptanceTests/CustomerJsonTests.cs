@@ -27,7 +27,7 @@ namespace CompatibleSoftware.QuotingTool.API.Tests
         {
             using (var client = _httpApplication.GetClient())
             {
-                var response = client.GetAsync("").Result;
+                var response = client.GetAsync("customer").Result;
 
                 Assert.True(
                     response.IsSuccessStatusCode,
@@ -47,7 +47,7 @@ namespace CompatibleSoftware.QuotingTool.API.Tests
                     createdDate = DateTimeOffset.Now
                 };
 
-                var response = client.PostAsJsonAsync("", json).Result;
+                var response = client.PostAsJsonAsync("customer", json).Result;
 
                 Assert.True(
                     response.IsSuccessStatusCode,
@@ -69,9 +69,9 @@ namespace CompatibleSoftware.QuotingTool.API.Tests
                 };
 
                 var expected = json.ToJObject();
-                client.PostAsJsonAsync("", json).Wait();
+                client.PostAsJsonAsync("customer", json).Wait();
 
-                var response = client.GetAsync("").Result;
+                var response = client.GetAsync("customer").Result;
 
                 var actual = response.Content.ReadAsJsonAsync().Result;
 

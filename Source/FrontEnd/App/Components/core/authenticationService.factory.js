@@ -10,7 +10,7 @@
         var authService = {};
  
         authService.login = function (credentials) {
-            return $http.post('http://localhost:55962/api/authentication', credentials);
+            return $http.post('http://localhost:9876/Authentication');
         };
         
 

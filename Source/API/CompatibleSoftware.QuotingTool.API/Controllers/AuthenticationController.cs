@@ -5,13 +5,12 @@ using System.Web.Http.Cors;
 
 namespace CompatibleSoftware.QuotingTool.API.Controllers
 {
-    [RoutePrefix("api/authentication")]
-    [EnableCors(origins: "http://localhost:8080", headers: "*", methods: "*")]
+    [EnableCors(origins: "http://localhost:5000", headers: "*", methods: "*")]
     public class AuthenticationController : ApiController
     {
         public HttpResponseMessage Get()
         {
-            return Request.CreateResponse(HttpStatusCode.NotImplemented);
+            return Request.CreateResponse(HttpStatusCode.OK, "It worked!");
         }
 
         public HttpResponseMessage Post()
