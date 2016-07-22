@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompatibleSoftware.QuotingT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompatibleSoftware.QuotingTool.Tests.Unit", "CompatibleSoftware.QuotingTool.Tests.Unit\CompatibleSoftware.QuotingTool.Tests.Unit.csproj", "{584E3565-D6B5-45FA-9E7E-2A39C667B39B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompatibleSoftware.QuotingTool.Host", "CompatibleSoftware.QuotingTool.Host\CompatibleSoftware.QuotingTool.Host.csproj", "{8DCBC824-8BCF-4690-AF27-2A172B1E1B69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{584E3565-D6B5-45FA-9E7E-2A39C667B39B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{584E3565-D6B5-45FA-9E7E-2A39C667B39B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{584E3565-D6B5-45FA-9E7E-2A39C667B39B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DCBC824-8BCF-4690-AF27-2A172B1E1B69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DCBC824-8BCF-4690-AF27-2A172B1E1B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DCBC824-8BCF-4690-AF27-2A172B1E1B69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DCBC824-8BCF-4690-AF27-2A172B1E1B69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
