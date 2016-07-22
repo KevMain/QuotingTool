@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Net.Http;
-using System.Reflection;
-using System.Threading.Tasks;
+using CompatibleSoftware.QuotingTool.API.Tests.Attributes;
+using CompatibleSoftware.QuotingTool.API.Tests.Extensions;
 using Xunit;
-using Newtonsoft.Json;
-using Xunit.Sdk;
 
 namespace CompatibleSoftware.QuotingTool.API.Tests
 {
@@ -14,7 +12,8 @@ namespace CompatibleSoftware.QuotingTool.API.Tests
 
         public CustomerJsonTests()
         {
-            _httpApplication = new HttpApplication();
+            _httpApplication = new HttpApplication(9876);
+            _httpApplication.StartApp();
         }
 
         public void Dispose()
@@ -77,39 +76,6 @@ namespace CompatibleSoftware.QuotingTool.API.Tests
 
                 Assert.Contains(expected, actual.entries);
             }
-        }
-    }
-
-    public class UseDatabaseAttribute : BeforeAfterTestAttribute
-    {
-        public override void Before(MethodInfo methodUnderTest)
-        {
-            new Bootstrap().InstallDatabase();
-            base.Before(methodUnderTest);
-        }
-
-        public override void After(MethodInfo methodUnderTest)
-        {
-            base.After(methodUnderTest);
-            new Bootstrap().UninstallDatabase();
-        }
-    }
-
-    public static class Extensions
-    {
-        public static dynamic ToJObject(this object obj)
-        {
-            dynamic serialized = JsonConvert.SerializeObject(obj);
-            return JsonConvert.DeserializeObject(serialized);
-        }
-
-        public static Task<dynamic> ReadAsJsonAsync(this HttpContent content)
-        {
-            if (content == null)
-                throw new ArgumentNullException("content");
-
-            return content.ReadAsStringAsync().ContinueWith(t =>
-                JsonConvert.DeserializeObject(t.Result));
         }
     }
 }

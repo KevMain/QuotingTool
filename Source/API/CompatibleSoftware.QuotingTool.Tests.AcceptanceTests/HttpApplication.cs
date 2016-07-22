@@ -6,17 +6,23 @@ namespace CompatibleSoftware.QuotingTool.API.Tests
 {
     public class HttpApplication : IDisposable
     {
-        private readonly IDisposable _webApp;
-        private const string BaseAddress = "http://localhost:9876";
+        private readonly int _port;
+        private IDisposable _webApp;
+        private const string BaseAddress = "http://localhost:";
 
-        public HttpApplication()
+        public HttpApplication(int port)
         {
-            _webApp = WebApp.Start<Bootstrap>(BaseAddress);
+            _port = port;
+        }
+
+        public void StartApp()
+        {
+            _webApp = WebApp.Start<Bootstrap>(BaseAddress + _port);
         }
 
         public HttpClient GetClient()
         {
-            return new HttpClient {BaseAddress = new Uri(BaseAddress)};
+            return new HttpClient {BaseAddress = new Uri(BaseAddress + _port) };
         }
 
         public void Dispose()

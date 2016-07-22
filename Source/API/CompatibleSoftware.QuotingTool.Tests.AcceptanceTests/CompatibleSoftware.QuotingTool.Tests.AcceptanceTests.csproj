@@ -88,9 +88,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client.cs" />
+    <Compile Include="Extensions\JsonExtensions.cs" />
+    <Compile Include="QuoteJsonTests.cs" />
     <Compile Include="CustomerJsonTests.cs" />
     <Compile Include="HttpApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Attributes\UseDatabaseAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
