@@ -13,7 +13,6 @@ namespace CompatibleSoftware.QuotingTool.Host
                 Console.WriteLine(@"Web Server is running.");
                 Console.WriteLine(@"Press any key to quit.");
                 Console.ReadLine();
-
             }
         }
     }

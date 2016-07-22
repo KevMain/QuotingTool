@@ -13,15 +13,12 @@ namespace CompatibleSoftware.QuotingTool.API
     {
         public void Configuration(IAppBuilder appBuilder)
         {
-            HttpConfiguration config = new HttpConfiguration();
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "{controller}/{id}",
-                defaults: new
-                {
-                    controller = "Home",
-                    id = RouteParameter.Optional
-                });
+            var config = new HttpConfiguration();
+            config.Routes.MapHttpRoute("DefaultApi", "{controller}/{id}", new
+            {
+                controller = "Home",
+                id = RouteParameter.Optional
+            });
 
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 

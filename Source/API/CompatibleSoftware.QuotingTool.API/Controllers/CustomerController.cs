@@ -10,7 +10,6 @@ namespace CompatibleSoftware.QuotingTool.API.Controllers
     {
         private static readonly List<CustomerEntryModel> Entries = new List<CustomerEntryModel>();
         
-         
         public HttpResponseMessage Get()
         {
             Entries.Add(new CustomerEntryModel() {CreatedBy = "aa", Name ="dsads", CreatedDate = DateTimeOffset.Now});

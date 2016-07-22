@@ -5,7 +5,7 @@ using System.Web.Http.Cors;
 
 namespace CompatibleSoftware.QuotingTool.API.Controllers
 {
-    [EnableCors(origins: "http://localhost:5000", headers: "*", methods: "*")]
+    [EnableCors("*", "*", "*")]
     public class AuthenticationController : ApiController
     {
         public HttpResponseMessage Get()
