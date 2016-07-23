@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Net.Http.Headers;
 using CompatibleSoftware.QuotingTool.API.Properties;
+using Swashbuckle.Application;
 
 namespace CompatibleSoftware.QuotingTool.API
 {
@@ -25,6 +26,11 @@ namespace CompatibleSoftware.QuotingTool.API
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
 
             config.EnableCors();
+
+            config
+                .EnableSwagger(c => c.SingleApiVersion("v1", "Quoting Tool API"))
+                .EnableSwaggerUi();
+
 
             appBuilder.UseWebApi(config);
         }
