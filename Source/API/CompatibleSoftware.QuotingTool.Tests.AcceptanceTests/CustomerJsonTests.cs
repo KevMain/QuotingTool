@@ -41,9 +41,7 @@ namespace CompatibleSoftware.QuotingTool.API.Tests
             {
                 var json = new
                 {
-                    name = "Customer 1",
-                    createdBy = "Admin",
-                    createdDate = DateTimeOffset.Now
+                    name = "Customer 1"
                 };
 
                 var response = client.PostAsJsonAsync("customer", json).Result;
@@ -62,9 +60,7 @@ namespace CompatibleSoftware.QuotingTool.API.Tests
             {
                 var json = new
                 {
-                    name = "Customer 2",
-                    createdBy = "Bob",
-                    createdDate = DateTimeOffset.Now
+                    name = "Customer 2"
                 };
 
                 var expected = json.ToJObject();
@@ -74,7 +70,7 @@ namespace CompatibleSoftware.QuotingTool.API.Tests
 
                 var actual = response.Content.ReadAsJsonAsync().Result;
 
-                Assert.Contains(expected, actual.entries);
+                Assert.Contains(expected, actual);
             }
         }
     }
