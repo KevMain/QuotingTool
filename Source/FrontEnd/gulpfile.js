@@ -49,9 +49,20 @@ gulp.task('scripts', ['templates'], function() {
     .pipe(refresh(lrserver));
 });
 
-gulp.task('styles', function() {
+gulp.task('bootstrap', function() {
     del.sync([config.paths.styles.pub + '/*']);
 
+    return gulp
+        .src(config.paths.styles.dev + '/*.css')
+        .pipe(concat('bootstrap.css'))
+        .pipe(config.debug ? gutil.noop() : shorthand())
+        .pipe(rename({suffix: noCache}))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest(config.paths.styles.pub))
+        .pipe(refresh(lrserver));
+});
+
+gulp.task('styles', function() {
     return gulp
         .src(config.paths.styles.dev + '/*.less')
         .pipe(less())
@@ -95,12 +106,13 @@ gulp.task('sync', function () {
     lrserver.listen(livereloadport);
 });
 
-gulp.task('mark-up', ['scripts','styles'], function () {
+gulp.task('mark-up', ['scripts', 'bootstrap','styles'], function () {
     gutil.log('Building index.htm');
 
     return gulp
         .src([config.paths.dev + '/index.htm'])
         .pipe(htmlReplace({
+            'bootstrap':'assets/css/bootstrap' + noCache + '.min.css', 
             'css':'assets/css/main' + noCache + '.min.css',
             'js':'assets/js/app' + noCache + '.min.js'
         }))
